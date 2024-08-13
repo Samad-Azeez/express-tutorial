@@ -1,8 +1,12 @@
 import http from 'http';
+import fs from 'fs';
+
+const homePage = fs.readFileSync('./navbar-app/index.html', 'utf-8');
+
 const server = http.createServer((req, res) => {
     if (req.url === '/'){
         res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.write('<h1>Hello, welcome to my server</h1>');
+        res.write(homePage);
         res.end();
         
     }else if (req.url === '/about'){
