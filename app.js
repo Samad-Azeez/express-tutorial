@@ -1,23 +1,16 @@
-import http from 'http';
-import fs from 'fs';
+import express from 'express';
+const app = express();
 
-const homePage = fs.readFileSync('./navbar-app/index.html', 'utf-8');
-
-const server = http.createServer((req, res) => {
-    if (req.url === '/'){
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.write(homePage);
-        res.end();
-        
-    }else if (req.url === '/about'){
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.write('<h1>About us</h1>');
-        res.end();
-    }else{
-        res.writeHead(404, { 'Content-Type': 'text/html' });
-        res.write('<h1>Page not found</h1>');
-        res.end();
-    };
+app.get('/', (req, res) => {
+    res.status(200).send('Welcome to my home page');
 });
 
-server.listen(3000);
+app.get('/about', (req, res) => {
+    res.status(200).send('About Page');
+});
+
+app.all('*', (req, res) => {
+    res.status(404).send('<h1>resource not found</h1>');
+});
+
+app.listen(3000);
