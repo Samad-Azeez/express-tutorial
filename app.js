@@ -1,16 +1,18 @@
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
-app.get('/', (req, res) => {
-    res.status(200).send('Welcome to my home page');
-});
+app.use(express.static('./navbar-app'));
 
-app.get('/about', (req, res) => {
-    res.status(200).send('About Page');
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './navbar-app/index.html'));
 });
 
 app.all('*', (req, res) => {
-    res.status(404).send('<h1>resource not found</h1>');
+    res.send('<h1>resource not found</h1>');
 });
 
 app.listen(3000, () => {
