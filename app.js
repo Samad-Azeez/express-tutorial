@@ -1,15 +1,24 @@
 import express from 'express';
-import path from 'path';
+import morgan from "morgan";
+import { logger } from "./logger.js";
 import { products } from "./data.js";
-// import { fileURLToPath } from 'url';
+import { authorize } from "./authorize.js";
 
-// const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+
+// app.use([authorize, logger]);
+
+app.use(morgan('tiny'))
 
 app.get('/', (req, res)=>{
     res.send(`
         <h1>Home page</h1>
-        <a href=./api/products>products</a>`);
+        <a href = ./api/products> products </a>
+        <a href = ./about> about </a>`);
+})
+
+app.get('/about', (req, res)=>{
+    res.send('Welcome to the about page')
 })
 
 app.get('/api/products', (req, res)=>{
